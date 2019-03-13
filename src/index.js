@@ -22,16 +22,18 @@ function startElectron (config, ports) {
     var debugPortsArgs = [`--debug-brk=${ports[0]}`, `--inspect-brk=${ports[1]}`];
     var extraArgs      = config.appArgs || [];
 
+    config.electronPath = path.normalize( config.electronPath);
+
     if (OS.mac && statSync(config.electronPath).isDirectory()) {
         cmd  = 'open';
-        args = ['-naW', `"${config.electronPath}"`, '--args'].concat(debugPortsArgs, extraArgs);
+        args = ['-W', '-na', config.electronPath, '--args'].concat(debugPortsArgs, extraArgs);
     }
     else {
         cmd  = config.electronPath;
         args = debugPortsArgs.concat(extraArgs);
     }
 
-    spawn(cmd, args, { stdio: 'ignore' });
+    spawn(cmd, args, { stdio: 'inherit' });
 }
 
 async function injectHookCode (client, code) {
@@ -56,7 +58,7 @@ const ElectronBrowserProvider = {
     async isLocalBrowser () {
         return true;
     },
-    
+
     async openBrowser (id, pageUrl, mainPath) {
         if (!isAbsolute(mainPath))
             mainPath = path.join(process.cwd(), mainPath);
