@@ -12,9 +12,18 @@ export default function (id, mainPath) {
         mainPath = path.join(mainPath, CONSTANTS.configFileName);
 
     var mainDir      = path.dirname(mainPath);
-    var configString = readFileSync(mainPath).toString();
 
-    var config = JSON.parse(configString);
+    var config;
+
+    try {
+        config = require(mainPath);
+    }
+    catch ( e ) {
+        // do nothing
+        var configString = readFileSync(mainPath).toString();
+
+        config = JSON.parse(configString);
+    }
 
     if (config.appPath) {
         if (!isAbsolute(config.appPath))
