@@ -101,6 +101,7 @@ const ElectronBrowserProvider = {
             ipc:     ipcServer,
             helpers: new Helpers(ipcServer)
         };
+
     },
 
     async closeBrowser (id) {

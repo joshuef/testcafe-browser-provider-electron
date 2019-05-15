@@ -34,6 +34,7 @@ function stopLoadingTimeout () {
     loadingTimeout = 0;
 }
 
+
 function handleDialog (type, args) {
     if (!dialogHandler.fn) {
         dialogHandler.hadUnexpectedDialogs = true;
@@ -54,21 +55,20 @@ function handleDialog (type, args) {
 
 module.exports = function install (config, testPageUrl) {
     ipc = new Client(config, { dialogHandler, contextMenuHandler, windowHandler });
-
     ipc.connect();
 
     var { BrowserWindow, Menu, dialog } = require('electron');
 
     var { WebContents } = process.atomBinding('web_contents');
 
-    var origLoadURL = BrowserWindow.prototype.loadURL;
+    var origLoadURL = WebContents.prototype.loadURL;
 
 
     function stripQuery (url) {
         return url.replace(URL_QUERY_RE, '');
     }
 
-    BrowserWindow.prototype.loadURL = function (url) {
+    WebContents.prototype.loadURL = function (url) {
         startLoadingTimeout(config.mainWindowUrl);
 
         var testUrl = stripQuery(url);
@@ -83,7 +83,7 @@ module.exports = function install (config, testPageUrl) {
 
             ipc.sendInjectingStatus({ completed: true });
 
-            BrowserWindow.prototype.loadURL = origLoadURL;
+            WebContents.prototype.loadURL = origLoadURL;
 
             url = testPageUrl;
 
@@ -127,4 +127,3 @@ module.exports = function install (config, testPageUrl) {
 
     process.argv.splice(1, 2);
 };
-

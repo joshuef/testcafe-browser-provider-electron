@@ -31,7 +31,7 @@ function build () {
         .src('src/**/*.js')
         .pipe(babel())
         .pipe(gulp.dest('lib'));
-} 
+}
 
 function test () {
     var testCafeCmd = path.join(__dirname, 'node_modules/.bin/testcafe');
@@ -46,5 +46,5 @@ function test () {
 }
 
 exports.lint  = lint;
-exports.build = gulp.parallel(lint, gulp.series(clean, build));
-exports.test  = gulp.series(exports.build, test); 
+exports.build = gulp.parallel( lint, gulp.series(clean, build));
+exports.test  = gulp.series(exports.build, test);
