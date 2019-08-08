@@ -59,7 +59,7 @@ module.exports = function install (config, testPageUrl) {
 
     var { BrowserWindow, Menu, dialog } = require('electron');
 
-    var { WebContents } = process.atomBinding('web_contents');
+    var { WebContents } = process.electronBinding('web_contents');
 
     var origLoadURL = WebContents.prototype.loadURL;
 
