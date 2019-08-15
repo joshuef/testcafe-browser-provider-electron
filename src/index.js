@@ -24,7 +24,7 @@ function startElectron (config, ports) {
 
     if (OS.mac && statSync(config.electronPath).isDirectory()) {
         cmd  = 'open';
-        args = ['-nW', '-a', config.electronPath, '--args'].concat(debugPortsArgs, extraArgs);
+        args = ['-Wna', `${config.electronPath}`, '--', '--args'].concat(debugPortsArgs, extraArgs);
     }
     else {
         cmd  = config.electronPath;
