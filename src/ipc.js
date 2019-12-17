@@ -4,8 +4,7 @@ import { pick as pickObjectProperties, transform as transformObjectProperties } 
 import { IPC } from 'node-ipc';
 import CONSTANTS from './constants';
 import MESSAGES from './messages';
-
-
+const x = console;
 export class Server {
     constructor (config) {
         this.id                     = config.serverId;
@@ -33,6 +32,8 @@ export class Server {
             this.ipc.serve(() => resolve(this.ipc.server));
 
             this.ipc.server.start();
+            console.log('STARTEDDDD ipc.......... \n')
+
         });
     }
 
@@ -43,6 +44,8 @@ export class Server {
     _getInjectingStatusPromise () {
         return new Promise(resolve => {
             this.server.on(MESSAGES.getInjectingStatus, data => {
+
+                console.log('message receivedddd')
                 this.server.off(MESSAGES.getInjectingStatus, '*');
                 resolve(data);
             });
@@ -67,9 +70,11 @@ export class Server {
 
         if (!this.socketPromise)
             this.socketPromise = this._getIpcSocket();
+        console.log('trying to connecttttttttt ipc.......... \n')
 
         if (!this.injectingStatusPromise)
             this.injectingStatusPromise = this._getInjectingStatusPromise();
+            console.log('trying to connecttttttttt ipc.. status........ \n', this.injectingStatusPromise, '\n')
 
         this.socket = await this.socketPromise;
     }

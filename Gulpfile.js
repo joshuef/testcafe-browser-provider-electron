@@ -55,7 +55,7 @@ function testAsarApp () {
 }
 
 exports.lint  = lint;
-exports.build = gulp.parallel(lint, gulp.series(clean, build));
+exports.build = gulp.parallel( gulp.series(build));
 exports.test  = gulp.series(
     exports.build,
     testRegularApp,

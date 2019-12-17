@@ -31,6 +31,12 @@ function startElectron (config, ports) {
         args = debugPortsArgs.concat(extraArgs);
     }
 
+    const x = console;
+
+    x.log('>>>>>>>>>>>>>>>>>>cmd>>', cmd, '\n');
+    x.log('>>>>>>>>>>>>>>>>>>args>>', args, '\n');
+    x.log('>>>>>>>>>>>>>>>>>>>>', config, '\n');
+
     spawn(cmd, args, { stdio: 'ignore' });
 }
 
@@ -74,6 +80,10 @@ const ElectronBrowserProvider = {
         var debugClient   = new NodeDebug(ports[0]);
         var inspectClient = new NodeInspect(ports[1]);
 
+        console.log("attempting to connect on", ports[0], '\n')
+        console.log("attempting to connect on", ports[1], '\n')
+        console.log("attempting to connect on", debugClient, '\n')
+        console.log("attempting to connect on", inspectClient, '\n')
         await Promise.race([
             injectHookCode(debugClient, hookCode),
             injectHookCode(inspectClient, hookCode)

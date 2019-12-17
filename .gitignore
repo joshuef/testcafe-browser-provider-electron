@@ -1,6 +1,5 @@
 .idea
 .screenshots
-lib
 node_modules
 /package-lock.json
 /test/data/test-app.asar
